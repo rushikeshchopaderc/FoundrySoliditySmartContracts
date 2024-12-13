@@ -2,7 +2,7 @@
 Smart Contracts in Foundry Framework
 Important Notes: 
 1) Never save your private key to vscode while working with forge.
-2) Get your testETH for Sepolia Network from infura. This is the official tieup of metamask with ethereum foundation. Open a metamask developer account, connect to metamask, login to infura and then paste the address where you want to receive the SepoliaETH.
+2) Get your testETH for Sepolia Network from infura. This is the official tieup of metamask with ethereum foundation. Open a metamask developer account, connect to metamask, login to infura and then paste the address where you want to receive the SepoliaETH. Link: https://docs.metamask.io/developer-tools/faucet/ 
 
 In Foundry, Precompiled Binaries refer to pre-built, optimized, and tested versions of the toolchain’s components, specifically:
 Forge: a Rust-based Ethereum Virtual Machine (EVM) implementation. It can also depoly smart contracts.
@@ -24,7 +24,7 @@ tests folder- contains all the test cases.
 
 
 ############# PART 1: Compiling the Code with foundry #############
-command-> $forge compile
+command-> %forge compile
 
 ############# PART 2: Deploying the Smart Contract with A) Command line and B) Writing Scripts ##################
 Deploying a contract to local blockchain using anvil - Ganache was used priorly, but it is deprecated. So foundry-anvil is the best resource for testing the smart contracts. Anvil is basically the javascript virtual environment for testing, It provides some dummy accounts with fake ether balance. To work with anvil, you need to Make a localhost on metamask. Follow these steps.
@@ -35,7 +35,7 @@ Step 3: Copy paste one of the account that you can see on the terminal for anvil
 A) Command line: Deploying a smart contract to a local blockchin using forge
 REMEMBER: Never save your private key to vscode while working with forge. Its bad to have it in shell/bash history. Never enter it in the text format. It can be hacked very easily. Multimillion doller companies have gone barkrupt because of this.
 
-Step 1: type the command $forge create ContractName --interactive (If it throws error, this might be because of the rpc is not right. OR you want to deploy to any other blockchain instead of foundry. In such situation add this argument to the above command --rpc-url http://127.0.0.1:8545)
+Step 1: type the command %forge create ContractName --interactive (If it throws error, this might be because of the rpc is not right. OR you want to deploy to any other blockchain instead of foundry. In such situation add this argument to the above command --rpc-url http://127.0.0.1:8545)
 Note: If you have multiple files with similar name follow this full command to deploy $forge create src/SimpleStorage.sol:SimpleStorage --interactive
 Step 2: Enter the private key that you have obtained from the dummy account on anvil and enter. The contract will be deployed. You won't be able to see the logs though.
 
@@ -44,10 +44,12 @@ B) Writing Scripts(Better way- has more features):Deploying a smart contract usi
 You need to write the tests and deployment script as well along with the smart contracts.
 Step 1: Make a solidity script for deploying in the script folder. Naming convention : YOUR-DEPLOYMENT-CONTRACT.s.sol
 
-Step 2: Use command line to compile the deployment script $ forge script script/YOUR-DEPLOYMENT-CONTRACT.s.sol
-If the rpc url is not defined, the smart contract is deployed to the local anvil chain by default. To deploy to other testnets, you need to use this command $forge script script/YOUR-DEPLOYMENT-CONTRACT.s.sol --rpc-url http://127.0.0.1:8545 (This is anvil url, you can pass in any other rpc url. This is a simulation deployment. This will make a broadcast folder in the parent folder which maintains all logs of deployment)
+Step 2: Use command line to compile the deployment script % forge script script/YOUR-DEPLOYMENT-CONTRACT.s.sol
+If the rpc url is not defined, the smart contract is deployed to the local anvil chain by default. To deploy to other testnets, you need to use this command 
+% forge script script/YOUR-DEPLOYMENT-CONTRACT.s.sol --rpc-url http://127.0.0.1:8545 (This is anvil url, you can pass in any other rpc url. This is a simulation deployment. This will make a broadcast folder in the parent folder which maintains all logs of deployment)
 
-Step 3: Instead of simulation, you can also broadcast the smart contract to acutal blockchain using this command $forge script script/YOUR-DEPLOYMENT-CONTRACT.s.sol --rpc-url http://127.0.0.1:8545 --broadcast --private key "YOUR-PRIVATE-KEY"
+Step 3: Instead of simulation, you can also broadcast the smart contract to acutal blockchain using this command 
+% forge script script/YOUR-DEPLOYMENT-CONTRACT.s.sol --rpc-url http://127.0.0.1:8545 --broadcast --private key "YOUR-PRIVATE-KEY"
 Note: 
 - This is not a good practise to write the private key in the terminal. Though this is not a good practice when it comes to actual mainnet deployment purposes. 
 1) Once you create this .env file, mention it in the .gitignore file. 
@@ -57,7 +59,7 @@ $forge script script/YOUR-DEPLOYMENT-CONTRACT.s.sol --rpc-url RPC_URL --broadcas
 - For real money, We mask the .env file with a password, so that the private key is also encrypted. We will either use a keystore file with a password OR use --interactive keyword in the command line. Alternatively Use DApp tools like Ethsign. MUST DO: READ and Sign the pledge to use the private key safely. It is present in the github repo of cyfrin/foundry-full-course-cu
 -USE A SEPERATE BRAND NEW METAMASK FOR TESTING AND DEPLOYMENT TO AVOID SECURITY COMPROMISES. YOU CAN USE ANOTHER BROWSER PROFILE ACCOUNT AND DOWNLOAD AND USE IT THERE FOR ALL THE DEVELOPMENT PURPOSES.
 -UPDATE: ERC-2335 is a new protocol to encrypt the private key into a json format. you can access it like this
-$ forge script script/OUR-DEPLOYMENT-CONTRACT.s.sol --rpc-url http://127.0.0.1:8545 --broadcast --account defaultKey --sender "defalultKey_ADDRESS"
+% forge script script/OUR-DEPLOYMENT-CONTRACT.s.sol --rpc-url http://127.0.0.1:8545 --broadcast --account defaultKey --sender "defalultKey_ADDRESS"
 To get defaultKey_ADDRESS, use the Foundry "cast" binary. Type command in the terminal(Use Mac Terminal and not the VSCode terminal, there might be some bug which could compromise the whole project.) 
 $cast wallet import defaultKey --interactive
 Then paste the private key into it. Also create a password for this defaultKey file. REMEMBER THIS PASSWORD. Once the password is pasted you will get an address to the defaultKey file(0xf39fd6e51aad88f6f4ce6ab8827279cfffb92266). ENTER THIS ADDRESS WHILE USING 'forge script' command. 
@@ -70,13 +72,53 @@ Step 4: The terminal will show the address of the deployed contract address alon
 If it is a contract on some testnet/mainnet, you can view it on the blockchain explorer as well.
 
 Additional tips: you can use this Foundry cast command from its 'cast' precompiled binary to convert hexadecimal to decimal number for reading smart contract values for gas etc. 
-$cast --to-base 0x1804c8ab1f12e6bbf3894d4083f33e07309d1f38 dec
+$cast --to-base 0x10 dec
+
+C) Deploying to TestNet (Sepolia) using Alchemy:
+Create a new app on Alchemy and add it's RPC to Metamask.
+ My RPC URL from Alchemy Sepolia Network on ethereum chain looks like this: https://eth-sepolia.g.alchemy.com/v2/k4r3l8SlLldMh1mWvRAezMErwoWJReX9 
+ 
+ Use the command to deploy to the testnet 
+ % forge script script/YOUR-DEPLOYMENT-CONTRACT.s.sol --rpc-url https://eth-sepolia.g.alchemy.com/v2/ALCHEMY_API_KEY --broadcast --account defaultKey --sender "defalultKey_ADDRESS"
+e.g. 
+% forge script script/DeploySimpleStorage.s.sol --rpc-url https://eth-sepolia.g.alchemy.com/v2/k4r3l8SlLldMh1mWvRAezMErwoWJReX9 --broadcast --account defaultKey --sender 0xf39fd6e51aad88f6f4ce6ab8827279cfffb92266
+
+
 
 ############# PART 3: Interacting with the Smart Contract with A) Command line and B) Writing Scripts ##################
 
-A) Command line: 
+A) Command line: Using foundry cast binary to interact with the smart contract
+- To sign and punlish transaction(used for nonpayable and payable functions) % cast send 
+- to perform a call on an account without publishing a transaction(used for pure and view functions) % cast call 
+- To get the balance of the account in wei % cast balance
+- to get the EIP-1967 admin account % cast admin
+- to get the base fee of the block % cast basefee
+- To get the Ethereum chain-id % cast chain-id
+- To get the gas price % cast gas-price
+- To get the gas limit % cast gas-limit
+- To get the nonce of the account % cast nonce
+- To get the contract creation code from etherscan/ other RPC % cast creation-code
+- To get the gas estimate of a transaction % cast estimate
+- To get the decimal representation of the hex value % cast --to-base
+- To get information about the transaction % cast tx
+
+1) To send the transaction/ call a payable/nonpayable function, use
+% cast send "CONTRACT-ADDRESS" "FUNCTION-NAME(ARGUMENTS)" "VALUES-FOR-ARGUMENTS" "RPC_URL" --keystore "KEYSTORE_PATH"
+e.g. % cast send 0x5FbDB2315678afecb367f032d93F642f64180aa3 "store(uint256)" 34 --rpc-url http://127.0.0.1:8545 --keystore /Users/rushi/.foundry/keystores/defaultKey 
+OR 
+% cast send "CONTRACT-ADDRESS" "FUNCTION-NAME(ARGUMENTS)" "VALUES-FOR-ARGUMENTS" "RPC_URL" --account "keystore_filename"
+e.g. % cast send 0x5FbDB2315678afecb367f032d93F642f64180aa3 "store(uint256)" 34 --rpc-url http://127.0.0.1:8545 --account defaultKey
+
+Optionally, you can augument --password argument in the same line to avoid the pop up line to enter the password. But it is better not to do so for visibility purposes.
+
+2) To call a view function, use
+% cast call "CONTRACT-ADDRESS" "FUNCTION-NAME(ARGUMENTS)" 
+e.g. % cast call 0x5FbDB2315678afecb367f032d93F642f64180aa3 "retrieve()"
+OR
+e.g. % cast call 0x5FbDB2315678afecb367f032d93F642f64180aa3 "retrieve()" --rpc-url http://127.0.0.1:8545 --account defaultKey
 
 B) Writing Scripts:
+
 
 
 ############# PART 4: Testing the Smart Contract with A) Command line and B) Writing Scripts ##################
