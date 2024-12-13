@@ -30,16 +30,25 @@ Step 1: Add your local RPC network to Metamask(Looks like an IP: 127.0.0.1:8545)
 Step 2: Add the RPC to it. Also add the chain id for anvil as 31337. set current currency to ETH and leave the blockchain explorer field empty as local blockchain does not have a blockchain explorer.
 Step 3: Copy paste one of the account that you can see on the terminal for anvil and make a new metamask account for the same. You will see 10000 testETH there.
 
-Deploying a smart contract to a local blockchin using forge
+A) Deploying a smart contract to a local blockchin using forge
 REMEMBER: Never save your private key to vscode while working with forge. Its bad to have it in shell/bash history. Never enter it in the text format. It can be hacked very easily. Multimillion doller companies have gone barkrupt because of this.
 Step 1: type the command $forge create ContractName --interactive (If it throws error, this might be because of the rpc is not right. OR you want to deploy to any other blockchain instead of foundry. In such situation add this argument to the above command --rpc-url http://127.0.0.1:8545)
+Note: If you have multiple files with similar name follow this full command to deploy $forge create src/SimpleStorage.sol:SimpleStorage --interactive
 Step 2: Enter the private key that you have obtained from the dummy account on anvil and enter. The contract will be deployed. You won't be able to see the logs though.
 
-Deploying a smart contract using Anvil:
+
+B) Deploying a smart contract using Anvil:
 You need to write the tests and deployment script as well along with the smart contracts.
 Step 1: Make a solidity script for deploying in the script folder. Naming convention : YOUR-DEPLOYMENT-CONTRACT.s.sol
 Step 2: Use command line to compile the deployment script $ forge script script/YOUR-DEPLOYMENT-CONTRACT.s.sol
-If the rpc url is not defined, the smart contract is deployed to the local anvil chain by default. To deploy to other testnets, you need to use this command
+If the rpc url is not defined, the smart contract is deployed to the local anvil chain by default. To deploy to other testnets, you need to use this command $forge script script/YOUR-DEPLOYMENT-CONTRACT.s.sol --rpc-url http://127.0.0.1:8545 (This is anvil url, you can pass in any other rpc url). This is a simulation deployment. This will make a broadcast folder in the parent folder which maintains all logs of deployment)
+Step 3: Instead of simulation, you can also broadcast the smart contract to acutal blockchain using this command $forge script script/YOUR-DEPLOYMENT-CONTRACT.s.sol --rpc-url http://127.0.0.1:8545 --broadcast --private key "YOUR-PRIVATE-KEY"
+Step 3: The terminal will show the address of the deployed contract address along with other important details likehash, gas fees, etc. 
+(== Return ==
+0: contract SimpleStorage 0x7FA9385bE102ac3EAc297483Dd6233D62b3e1496).
+If it is a contract on some testnet/mainnet, you can view it on the blockchain explorer as well.
+
+Testing a smart contract using Anvil:
 
 
 
