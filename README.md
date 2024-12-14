@@ -3,6 +3,7 @@ Smart Contracts in Foundry Framework
 Important Notes: 
 1) Never save your private key to vscode while working with forge.
 2) Get your testETH for Sepolia Network from infura. This is the official tieup of metamask with ethereum foundation. Open a metamask developer account, connect to metamask, login to infura and then paste the address where you want to receive the SepoliaETH. Link: https://docs.metamask.io/developer-tools/faucet/ 
+3) Additional resources: Base Documnetation of foundry commands: https://docs.base.org/tutorials/deploy-with-foundry/ 
 
 In Foundry, Precompiled Binaries refer to pre-built, optimized, and tested versions of the toolchain’s components, specifically:
 Forge: a Rust-based Ethereum Virtual Machine (EVM) implementation. It can also depoly smart contracts.
@@ -24,7 +25,9 @@ tests folder- contains all the test cases.
 
 
 ############# PART 1: Compiling the Code with foundry #############
-command-> %forge compile
+%forge compile
+OR
+% forge build
 
 ############# PART 2: Deploying the Smart Contract with A) Command line and B) Writing Scripts ##################
 Deploying a contract to local blockchain using anvil - Ganache was used priorly, but it is deprecated. So foundry-anvil is the best resource for testing the smart contracts. Anvil is basically the javascript virtual environment for testing, It provides some dummy accounts with fake ether balance. To work with anvil, you need to Make a localhost on metamask. Follow these steps.
@@ -75,15 +78,19 @@ Additional tips: you can use this Foundry cast command from its 'cast' precompil
 $cast --to-base 0x10 dec
 
 C) Deploying to TestNet (Sepolia) using Alchemy:
-Create a new app on Alchemy and add it's RPC to Metamask.
- My RPC URL from Alchemy Sepolia Network on ethereum chain looks like this: https://eth-sepolia.g.alchemy.com/v2/k4r3l8SlLldMh1mWvRAezMErwoWJReX9 
+Step 1: Create a new app on Alchemy and add it's RPC to Metamask.
+ My RPC URL from Alchemy Sepolia Network on ethereum chain looks like this: https://eth-sepolia.g.alchemy.com/v2/k4r3l8SlLldMh1mWvRAezMErwoWJReX9  
  
- Use the command to deploy to the testnet 
- % forge script script/YOUR-DEPLOYMENT-CONTRACT.s.sol --rpc-url https://eth-sepolia.g.alchemy.com/v2/ALCHEMY_API_KEY --broadcast --account defaultKey --sender "defalultKey_ADDRESS"
+Step 2: Add the private key of the metamask account in a seperate keystore file. Note: If you are unable to deploy and getting gas overload error, try recreating the keystore file.
+% cast wallet import SepoliaTestnetKey --interactive
+The Address to keystore file is 0x9340c3c9ab2d739d03962cbe5b47950a352795ba
+
+Step 3: Use the command to deploy to the testnet ()
+ % forge script script/YOUR-DEPLOYMENT-CONTRACT.s.sol --rpc-url https://eth-sepolia.g.alchemy.com/v2/ALCHEMY_API_KEY --broadcast --account "KEYSTORE_FILENAME" --sender "KEYSTORE_FILENAME_ADDRESS"
 e.g. 
-% forge script script/DeploySimpleStorage.s.sol --rpc-url https://eth-sepolia.g.alchemy.com/v2/k4r3l8SlLldMh1mWvRAezMErwoWJReX9 --broadcast --account defaultKey --sender 0xf39fd6e51aad88f6f4ce6ab8827279cfffb92266
-
-
+% forge script script/DeploySimpleStorage.s.sol --rpc-url https://eth-sepolia.g.alchemy.com/v2/k4r3l8SlLldMh1mWvRAezMErwoWJReX9 --broadcast --account SepoliaTestnetKey --sender 0x9340c3c9ab2d739d03962cbe5b47950a352795ba
+The contract address obtained after this step is important. Will be used to interact with the smart contract in the future. 
+Contract address in this case: 0x5555Bf39421aF005BAE126E39BcdbC8257b6eF35
 
 ############# PART 3: Interacting with the Smart Contract with A) Command line and B) Writing Scripts ##################
 
@@ -92,7 +99,7 @@ A) Command line: Using foundry cast binary to interact with the smart contract
 - to perform a call on an account without publishing a transaction(used for pure and view functions) % cast call 
 - To get the balance of the account in wei % cast balance
 - to get the EIP-1967 admin account % cast admin
-- to get the base fee of the block % cast basefee
+- to get the base fee of the block % cast base-fee
 - To get the Ethereum chain-id % cast chain-id
 - To get the gas price % cast gas-price
 - To get the gas limit % cast gas-limit
