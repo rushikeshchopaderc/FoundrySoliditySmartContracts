@@ -92,6 +92,8 @@ e.g.
 The contract address obtained after this step is important. Will be used to interact with the smart contract in the future. 
 Contract address in this case: 0x5555Bf39421aF005BAE126E39BcdbC8257b6eF35
 
+
+
 ############# PART 3: Interacting with the Smart Contract with A) Command line and B) Writing Scripts ##################
 
 A) Command line: Using foundry cast binary to interact with the smart contract
@@ -134,4 +136,24 @@ Testing a smart contract using Anvil:
 
 
 
+
+################### PART 5: ZkSync #####################
+https://github.com/matter-labs/foundry-zksync This is a gitHub repo forked for bringing all the features of Foundry to ZkSync.
+https://foundry-book.zksync.io/ This is the documentation book for ZkSync. This has the setup instructions for ZkSync.
+Install the precompiled binaries in nightly version due to zksync being in alpha test phase. 
+This installation overwrites the forge, anvil and cast binaries.
+
+1) Installing foundry-ZkSync:
+https://foundry-book.zksync.io/ 
+This is the installation command in bash
+$ curl -L https://raw.githubusercontent.com/matter-labs/foundry-zksync/main/install-foundry-zksync | bash
+
+2) Compiling with '--zksync': 
+In the above vanilla foundry setup, we did the following: 
+#Step 3: Type command in the terminal to install all the 4 precompiled binaries $foundryup
+Instead of doing this we will give the command to install the binaries.
+% foundryup-zksync 
+
+3) Reinstall vanilla foundry:
+You can again use the command % foundryup to install vanilla foundry. And you can switch back and forth.
 
